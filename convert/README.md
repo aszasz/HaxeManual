@@ -1,33 +1,34 @@
 TeX to MarkDown Converter
 ========================
 
-This haxe program parses the contents of *HaxeDoc.tex* and generates MarkDown (*.md*) files for the different sections.  The *.md* files live in:
+Esse programa em haxe processa os conteúdo de *HaxeManual.tex* e gera os arquivos MarkDown (*.md*) para as diferentes seções. Os arquivos *.md* vivem em
 
 `../md/manual`
 
+Os arquivos *.md* são divididos e nomeados por seção e título
 The *.md* files are broken out and named by subsection and title 
 
-Generating MarkDown
+Geração do MarkDown
 -------------------
 
-make sure the library hxparse is installed. If not:
+verifique que as bibliotecas hxparse e hxargs estejam instaladas. If not:
 
-`haxelib install hxparse`
+`haxelib install hxparse hxargs`
 
-then just run the .hxml file
+E então execute o arquivo .hxml 
 
 `haxe convert.hxml`
 
 Exception... No Match:
 ---------
 
-Most common LaTeX commands are correctly parsed, but the list is not exhaustive.  To add a new LaTeX command:
+A maioria dos comandos de LaTex está corretamente processada, mas a lista não é exaustiva. Para adicionar um novo comando de LaTeX:
 
-if it is a custom (i.e. not standard) LaTeX command:
-1. Add it as a `CustomCommand` in LatexParser.hx --There are plenty of examples in the file.
+se for um comando personalizado de LaTeX (i.e criado pelo usuário):
+1. Adicione como um `CustomCommand` nem LatexParser.hx -- Há vários exemplos no arquivo.
 
-If it is a standard LaTeX command:
-1. Add the command to the enum in *LatexCommand.hx*
-2. Add the functionality to the appropriate switch in *LatexParser.hx*
+Se for um comando padrão do LaTeX:
+1. Adicione o comando ao enum em *LatexCommand.hx*
+2. Adiciona a funcionalidade ao switch apropriado em *LatexParser.hx*
 
 
