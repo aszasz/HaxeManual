@@ -1,25 +1,29 @@
 enum Tree<T> {
-  Leaf(v:T);
-  Node(l:Tree<T>, r:Tree<T>);
+    Leaf(v:T);
+    Node(l:Tree<T>, r:Tree<T>);
 }
 
 class Main {
   static public function main() {
     var myTree = Node(Leaf("foo"), Node(Leaf("bar"), Leaf("foobar")));
+    // myTree é um nó (uma possibilidade para árvore)
+    // (nós contém duas árvores)
+    // a árvore esquerda é uma folha (v="foo"):
+    // a árvore direita é um nó (que contém duas árvores):
+    //   a árvore esquerda (da árvore direita) é uma folha (v="bar")
+    //   e árvore direita (da árvore direita) também é uma folha (v="foobar")
+    
     var match = switch(myTree) {
-      // matches any Leaf
-      case Leaf(_): "0";
-      // matches any Node that has r = Leaf
-      case Node(_, Leaf(_)): "1";
-      // matches any Node that has has
-      // r = another Node, which has
-      // l = Leaf("bar")
-      case Node(_, Node(Leaf("bar"), _)): "2";
-      // matches anything
-      case _: "3";
+        case Leaf(_): "0"; // corresponde a qualquer nó 
+                           //que seja apenas uma folha
+        case Node(_, Leaf(_)): "1"  // corresponde a qualquer nó
+                                    //que tenha uma folha na direita
+        case Node(_, Node(Leaf("bar"), _)): "2"; // corresponde
+                                   // a qualquer nó que tenha um nó na direita
+                                   // onde a árvore esquerda seja uma folha com                               // v="bar"
+        case _: "3"; // corresponde a qualquer coisa
     }
     trace(match); // 2
-
 
     var myTree = Node(Leaf("foo"), Node(Leaf("bar"), Leaf("foobar")));
     var name = switch(myTree) {

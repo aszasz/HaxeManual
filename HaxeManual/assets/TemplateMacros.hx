@@ -2,17 +2,17 @@ class Main {
   static function main() {
     new Main();
   }
-
+	
   public function new() {
-    var user = {name:"Mark", distance:3500};
-    var sample = "The results: $$display(::user::,::time::)";
+    var usuario = {nome:"Mark", distância:3500};
+    var sample = "Os resultados: $$display(::usuario::,::tempo::)";
     var template = new haxe.Template(sample);
-    var output = template.execute({user:user, time: 15}, this);
+    var output = template.execute({usuario:usuario, tempo: 15}, this);
     trace(output);
   }
-
-  function display(resolve:String->Dynamic, user:User, time:Int) {
-    return user.name + " ran " + (user.distance/1000) + " kilometers in " + time + " minutes";
+	
+  function display(resolve:String->Dynamic, usuario:User, time:Int) {
+    return user.nome + " correu " + (user.distancia/1000) + " quilometros em " + tempo + " minutos";
   }
 }
-typedef User = {name:String, distance:Int}
+typedef User = {nome:String, distancia:Int}}
