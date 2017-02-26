@@ -25,7 +25,7 @@ Exception... No Match:
 A maioria dos comandos de LaTex está corretamente processada, mas a lista não é exaustiva. Para adicionar um novo comando de LaTeX:
 
 se for um comando personalizado de LaTeX (i.e criado pelo usuário):
-1. Adicione como um `CustomCommand` nem LatexParser.hx -- Há vários exemplos no arquivo.
+1. Adicione como um `CustomCommand` em LatexParser.hx -- Há vários exemplos no arquivo.
 
 Se for um comando padrão do LaTeX:
 1. Adicione o comando ao enum em *LatexCommand.hx*

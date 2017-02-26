@@ -1,5 +1,5 @@
 \chapter{Tipos}% upstream: commit 79adb3f36faa851206ab38c055e80645cfd73628 on Oct 15, 2016 
-\label{types}%ideally we try to keep the line number in sync with the original file to make reference easier. This is (at this point) a pure translation not a version.
+\label{types}%ideally we try to keep the line number in sync with the original file to make reference easier. This is (at this point) a pure translation not a version
 
 O Compilador de Haxe emprega um detalhado sistema de tipos que ajuda a detectar erros de tipagem em um programa durante a compilação. Um erro de tipagem é uma operação inválida sobre um dado tipo como a divisão por um String, a tentativa de acesso a um campo de um Integer ou a chamada a uma função com menos (ou mais) argumentos que o necessário.
 
@@ -32,11 +32,13 @@ Nos próximos capítulos, cada um desses grupos de tipos será descrito, bem com
 
 \define{Tipo composto}{define-compound-type}{Um tipo composto é um tipo que tem subtipos. Isso inclui qualquer tipo com \tref{parâmetros de tipo}{type-system-type-parameters} e as \tref{funções}{types-function}.}
 
-
+% When generating the .md, the bellow line seems to generate the 
+% Uncaught exception - 02-types.tex:85: characters 9086-9087: No match: TNewline
 \section{Tipos básicos}
 \label{types-basic-types}
 
 Os \emph{tipos básicos} são \type{Bool}, \type{Float} and \type{Int}. Eles podem ser facilmente identificados na sintaxe por valores como
+
 
 \begin{itemize}
 	\item \expr{true} e \expr{false} para \type{Bool},
@@ -44,7 +46,7 @@ Os \emph{tipos básicos} são \type{Bool}, \type{Float} and \type{Int}. Eles pod
 	\item \expr{1.0}, \expr{0.0}, \expr{-1.0}, \expr{1e10} para \type{Float}.
 \end{itemize}
 
-Tipos básicos não são \tref{classes}{types-class-instance} em Haxe. Eles são implementados como \tref{tipos abstratos}{types-abstract} e estão amarrados ao "gerenciamento de operadores" interno ao compilador, como descrito nas seções seguintes.
+Tipos básicos não são \tref{classes}{types-class-instance} em Haxe. Eles são implementados como \tref{tipos abstratos}{types-abstract} e estão amarrados ao ``gerenciamento de operadores'' interno ao compilador, como descrito nas seções seguintes.
 
 \subsection{Tipos numéricos}
 \label{types-numeric-types}
@@ -60,7 +62,7 @@ Enquanto todo \type{Int} pode ser usado onde se espera um \type{Float} (\type{In
 Por razões de desempenho, o Compilador de Haxe não define um comportamento particular de overflow\translatenote{a condição a que se refere aqui como overflow é a codição que se atinge quando o resultado de uma operação é maior do que o espaço de memória destinado a guardá-lo, algumas publicações em português utilizam transbordamento e outras estouro, optamos  por manter o termo original overflow, como o fazem outras tantas publicações.}. A responsabilidade de verificar overflows recai sobre a plataforma do target. Aqui se vêem algumas observações especificas do comportamento de overflow:
 
 \begin{description}
- \item[C++, Java, C\#, Neko, Flash:] Inteiros de 32 bits com sinal e comportamento usual de overflow 
+ \item[C++, Java, C\#, Neko, Flash:] Inteiros de 32 bits com sinal e comportamento usual de overflow
  \item[PHP, JS, Flash 8:] Não possuem tipo \emph{Int} nativo e haverá perda de precisão quando eles atingirem seu limite de ponto flutuante (2\textsuperscript{52})
 \end{description}
 
@@ -126,12 +128,12 @@ Esta é a lista de operadores numéricos em Haxe, agrupados por prioridade decre
 
 \emph{Para enumerações(Enums):}
 \begin{description}
-	\item[Enumerações sem parâmetros] sempre representam os mesmos valores, então \expr{MyEnum.A == MyEnum.A}. 
+	\item[Enumerações sem parâmetros] sempre representam os mesmos valores, então \expr{MyEnum.A == MyEnum.A}.
     \item[Enumerações com parâmetros] podem ser comparadas com \expr{a.equals(b)} (que é um forma curta para \expr{Type.enumEquals()}).
 \end{description}
 
 \emph{Dinâmicos(Tipo Dynamic)}
-Comparações envolvendo ao menos um valor Dynamic não são especificadas e "específicas a plataforma".
+Comparações envolvendo ao menos um valor Dynamic não são especificadas e "específicas a plataforma"
 
 \subsection{Bool}
 \label{types-bool}

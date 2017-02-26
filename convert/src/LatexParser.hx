@@ -397,6 +397,7 @@ class LatexParser extends Parser<LexerTokenSource<LatexToken>, LatexToken> imple
 				"";
 			// TODO
 			case [TCommand(CFootnote), s = inBraces(text)]: "";
+			case [TCustomCommand("translatenote"), s = inBraces(text)]: "";
 			case [t = _text()]:
 				t;
 		}
