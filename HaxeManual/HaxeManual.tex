@@ -1,5 +1,17 @@
 \documentclass{../haxe}
 
+% Translation specifics (avoiding changes to haxe.cls for now)
+% language
+\usepackage[T1]{fontenc}
+\usepackage[main=brazil,english]{babel}
+% custom commands
+\newcommand\translationextra[1]{#1}
+\newcommand\translatenote[1]{\footnote{N.~do T.: #1.}}
+% adapted commands from the 'haxe' class
+\renewcommand{\define}[4][Definição]
+	{\begin{myshaded}\noindent\textbf{#1: #2}\par\nobreak\noindent\ignorespaces#4\label{#3}\end{myshaded}}
+
+
 % todo-related
 \usepackage[left=4.7cm, right=2cm, top=2cm, bottom=4.2cm]{geometry}
 \usepackage[draft]{todonotes}
