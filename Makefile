@@ -1,4 +1,6 @@
-root = HaxeDoc
+dir = HaxeManual
+outputdir = output
+root = HaxeManual
 
 pdf: $(root).pdf PHONY
 
@@ -6,10 +8,11 @@ md: PHONY
 	cd convert && haxe convert.hxml
 
 $(root).pdf: PHONY
-	latexmk -xelatex $(root).tex
+	cd $(dir) && latexmk -xelatex $(root).tex
+	mv $(dir)/$(root).pdf $(outputdir)/
 
 clean: PHONY
-	latexmk -c -xelatex $(root).tex
+	cd $(dir) && latexmk -c -xelatex $(root).tex
 	rm -f convert/convert.n
 
 dist-clean: clean
