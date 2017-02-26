@@ -1,24 +1,33 @@
-# [The Haxe Manual](https://haxe.org/manual)
+# [Manual do Haxe]
 
-[![Build Status](https://travis-ci.org/HaxeFoundation/HaxeManual.svg?branch=master)](https://travis-ci.org/HaxeFoundation/HaxeManual)
+O branch master aqui é o esforço de tradução (master here is the translation)
+
+O branch `hxfmaster` é o master da Haxe Foundation
 
 Contributions / Information for authors
 -------------
 
-**For contributions please edit the _.tex_ files in in [HaxeManual/](HaxeManual/).  The _.md_ files are generated from it.**
+**Para contribuir por favor edite os arquivos _.tex_ em [HaxeManual/](HaxeManual/).  Os arquivos _.md_ (e o _.pdf_) são gerados a partir deles.**
 
-The manual is structured using these commands:  
-`\chapter{name}`, `\section{name}`, `\subsection{name}`, `\paragraph{name}`
-> Chapter, section and subsection require a `\label{id}` so a URL can be determined. It should not contain any spaces.
+(O Capítulo 1 está ok, o capítulo 2 está em andamento.
+Existe uma versão dos Capítulos 6 ao 12 parcialmente formatada formatada [aqui] (https://github.com/aszasz/manual-do-haxe-bruto/) que corresponde ao estado do manual original em janeiro de 2015. Fique a vontade para comparar e formatar )
+(
 
-Formatting:  
-* Bold text: `\emph{Emphasized text}`
-* Code: `\expr{haxe code}`, `\type{MyClass}`, `\ic{other code}`
-* Since: `\since{3.1.0}`
-* Definition blockquote: `\define{Definition name}{define-definition}{Definition description}`
-* Trivia blockquote: `\trivia{About Trivia}{This is trivia}`
-* Internal Links: `\tref{Link name}{chapter-section-id}` or `\Fullref{chapter-section-id}`
-* External Links: `\href{https://haxe.org}{Haxe Website}`
+O manual é estruturado usando esses comandos:
+
+`\chapter{nome}`, `\section{nome}`, `\subsection{nome}`, `\paragraph{nome}`
+>  Esses comandos geram respectivamente o início de capítulo, secção, subseção e parágrafo. Para os três primeiros a utilização do comando `\label{id}` na sequência é mandatória para que a URL do markdown possa ser criada. Não deve conter espaços. 
+
+Formatação:  
+* Text em negrito: `\emph{Emphasized text}`
+* Código: `\expr{haxe code}`, `\type{MyClass}`, `\ic{other code}`
+* Desde: `\since{3.1.0}`
+* Caixa com definição: `\define{Expressão}{define-definition}{Texto que define a expressão}`
+* Caixa com curiosidades: `\trivia{Assunto da Curiosidade}{Texto contando a curiosidade}`
+* Links internos: `\tref{Nome para o link}{chapter-section-id}` ou `\Fullref{chapter-section-id}`
+* Links externos: `\href{https://haxe.org}{Website do Haxe}`
+
+Optamos por manter `id` em `\labels{id}` e `{define-definition}` em blocos `\defines` com os nomes originais, por tanto não traduza essa parte nem as referências a eles (sempre em inglês e com hífens). Optamos por deixar os nomes dos arquivos como no original
 
 Block of [external code](HaxeManual/assets) (preferred since those are tested):  
 ```tex
@@ -45,33 +54,30 @@ Definition list:
 \end{description}
 ```
 
-Finally, if you want to contribute to the Haxe Manual but cannot be arsed to use _.tex_, just write it in any other format and we'll port it.
-
 ---
 
-Generating Markdown
+Geração de .md
 -----------------
 
-Run [convert/convert.hxml](convert/convert.hxml) to generate the markdown which will be exported to the [output-folder](output/). For quick testing disable the .mobi generation.
+Execute [convert/convert.hxml](convert/convert.hxml) para gerar o  markdown que será exportado para o [diretório de saída](output/). Para testar mais rapidamente, desabilite a geração para .mobi.
 
-You can use the following defines when using `convert` for additional features.
+Você pode usar as seguintes definições quando quiser usar `convert` com funcionalidades adicionais.
 
 - `-D compileEnv`
-Generates images from custom LaTeX environments too complex for Markdown (specifically the `flowchart` environment at the time of writing). Skips already existing images.
+Gera imagens exlusivas para o LaTeX que são muito complexas para o Markdow (especificamente o `fluxograma` à epoca em que isso foi escrito). Pula imagens que já existem.
 - `-D recompileEnv`
-Generates images even if they already exist at their destination (most useful for `convert` development).
+Gera imagens, mesmo que elas já existam no local de destion (mais útil para o desenvolvimento de `convert`).
 - `-D keepEnvPDF`
-Keeps the LaTeX generated PDF files. They're placed next to generated images with the same name.
+Mantem os arquivos PDF gerados pelo LaTeX generated PDF files. Eles são posicionados proximos às imagens geradas com o mesmo nome.
 - `-D keepEnvTemp`
-Keeps the generated temporary directory for LaTeX compilation. Useful for debugging / development purposes.
+Mantem o diretório temporário gerado para a compilação do LaTeX. Útil para debug / desevolvimento.
 
 
 PDF generation
 --------------
 
-To rebuild the .pdf from the command line, run `latexmk -xelatex HaxeDoc.tex`.
-A recent version of [TeX Live] should provide latexmk and all needed packages
-and their dependencies:
+Para rebuildar o .pdf da lina de comando, execute `latexmk -xelatex HaxeManual/HaxeManual.tex` ou `make`.
+Uma versão recente do [TeX Live] deve fornecer latexmk bem como todos os pacotes necessários e suas dependênciaa
 
  - xelatex
  - cleveref
@@ -87,18 +93,21 @@ and their dependencies:
  - todonotes
  - underscore
  - xcolor
+ - fontenc
+ - babel
+ 
 
 
-Requirements for `compileEnv`
+Requerimentos para `compileEnv`
 -----------------------------
 
-At the time of writing, `compileEnv` depends on the following.
+A época em que isso foi escrito, `compileEnv` dependia dos seguintes:
 
-- `xelatex` being in path. [TeX Live] 2013 version should be sufficient. Used to compile custom LaTeX environment snippets to PDF.
-- `mudraw` being in path. This is a part of [MuPDF]. Used for rendering PDF to a PNG image.
-- `pandoc` being in path. Used for generating *.epub* file.
-- `ebook-convert` being in path. This is a part of [calibre]. Used for converting *.epub* to *.mobi*.
-- [Source Sans Pro] and [Source Code Pro] fonts being installed.
+- `xelatex` estar no path. [TeX Live] versão 2013 deve ser suficiente. É usado para compilar snipets personalizados de LaTeX para PDF.
+- `mudraw` estar no path. Isso é uma parte do [MuPDF]. Usado para reinderizar uma imagem de PDF em PNG.
+- `pandoc` estar no path. Usado para a geração de arquivos  *.epub*.
+- `ebook-convert` estar no path. Isso é parte do [calibre]. Usado para converter *.epub* para *.mobi*.
+-  Fonts [Source Sans Pro] e [Source Code Pro] estarem instaladas.
 
 
 [TeX Live]:http://www.tug.org/texlive/
