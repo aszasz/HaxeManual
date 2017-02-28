@@ -1,8 +1,18 @@
-# [Manual do Haxe]
+# Manual do Haxe - Tradução para o português
 
-O branch master aqui é o esforço de tradução (master here is the translation)
+O branch master aqui é o esforço de tradução (master branch here is the ongoing translation)
 
-O branch `hxfmaster` é o master da Haxe Foundation
+O branch `hxfmaster` é o master da Haxe Foundation 
+
+Tradução e Expansão
+-------------------
+
+A literalidade da tradução varia ao longo do texto; em um primeiro momento temos intenção de ser tão literais quanto possível, visando preservar o conteúdo original, incluindo a estrutura das frases.
+
+A priori, pretendemos manter o número de linhas sincronizados com o texto original, para facilitar o controle.
+
+Blocos de comentários ou explicações além do original são certamente benvindos, mas devem ser sinalizados com `\translationextra`{} para controle do que é materialoriginal e o que é extensão (presume-se que o que se colocou a mais aqui deve ser sugerido para o Manual original também, se for recusado lá, será recusado aqui também). Notas do tradutor podem ser incluídas com o uso da macro `\translatornote{}`. Equivalem a uma nota de rodapé e não adicionam linhas à fonte.
+
 
 Contributions / Information for authors
 -------------
