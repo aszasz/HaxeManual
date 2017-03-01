@@ -86,8 +86,8 @@ Mantem o diretório temporário gerado para a compilação do LaTeX. Útil para 
 PDF generation
 --------------
 
-Para rebuildar o .pdf da lina de comando, execute `latexmk -xelatex HaxeManual/HaxeManual.tex` ou `make`.
-Uma versão recente do [TeX Live] deve fornecer latexmk bem como todos os pacotes necessários e suas dependênciaa
+Para rebuildar o .pdf da lihna de comando, execute -- de dentro do diretório HaxeManual -- `latexmk -xelatex -c HaxeManual.tex` ou - no diretório raiz `make`.
+Uma versão recente do [TeX Live] deve fornecer latexmk bem como todos os pacotes necessários e suas dependências
 
  - xelatex
  - cleveref
