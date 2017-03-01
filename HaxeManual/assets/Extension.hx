@@ -1,6 +1,7 @@
+//Iterável com Comprimento 
 typedef IterableWithLength<T> = {
   > Iterable<T>,
-  // read only property
+  // propriedade length (comprimento) apenas de leiturra
   var length(default, null):Int;
 }
 

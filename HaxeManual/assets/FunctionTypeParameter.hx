@@ -1,15 +1,15 @@
 class Main {
   static public function main() {
-    equals(1, 1);
-    // runtime message: bar should be foo
-    equals("foo", "bar");
-    // compiler error: String should be Int
-    equals(1, "foo");
+    equivale(1, 1);
+    // messagem em runtime: bar deveria ser foo
+    equivale("foo", "bar");
+    // erro de compilação: String should be Int (String deveria ser Int)
+    equivale(1, "foo");
   }
 
-  static function equals<T>(expected:T, actual:T) {
-    if (actual != expected) {
-      trace('$actual should be $expected');
+  static function equivale<T>(esperado:T, encontrado:T) {
+    if (encontrado != esperado) {
+      trace('$encontrado deveria ser  $esperado');
     }
   }
 }

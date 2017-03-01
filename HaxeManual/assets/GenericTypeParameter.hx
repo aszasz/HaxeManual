@@ -1,6 +1,8 @@
+//Structure Construível
 typedef Constructible = {
   public function new(s:String):Void;
 }
+
 
 class Main {
   static public function main() {

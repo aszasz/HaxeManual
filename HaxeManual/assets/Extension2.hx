@@ -1,7 +1,8 @@
+// estrutura ComComprimento
 typedef WithLength = {
   var length(default, null):Int;
 }
-
+// Estrutura com ComprimentoEPush
 typedef IterableWithLengthAndPush<T> = {
   > Iterable<T>,
   > WithLength,

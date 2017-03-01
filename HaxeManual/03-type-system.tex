@@ -1,31 +1,31 @@
-\chapter{Type System}
+\chapter{Sisstema de tipos}
 \label{type-system}
 
-We learned about the different kinds of types in \Fullref{types} and it is now time to see how they interact with each other. We start off easy by introducing \tref{typedef}{type-system-typedef}, a mechanism to give a name (or alias) to a more complex type. Among other things, this will come in handy when working with types having \tref{type parameters}{type-system-type-parameters}.
+Aprendemos sobre as diversas espécies de tipos em \Fullref{types}  e agora é o momento de ver como eles interagem cuns com os oturos. Nós começarmos suavemente com a introdução de \tref{typedef}{type-system-typedef}, um mecanismo para dar um nome (ou alias) para um tipo mais complexo. Dentre outras coisas, isso virá a calhar quando trabalharmos com tipos que tenham \tref{tipos como parâmetros}{type-system-type-parameters}.
 
-A lot of type-safety is achieved by checking if two given types of the type groups above are compatible. Meaning, the compiler tries to perform \emph{unification} between them as detailed in \Fullref{type-system-unification}.
+Muito da segurança de tipos é conseguido ao verificar se dois dados tipos dos grupos de tipo em \Fullref{types} sejam compatíveis. Quer dizer, o compilador tenta desempenhar a \emph{unificação} entre eles como detalhado em \Fullref{type-system-unification}.
 
-All types are organized in \emph{modules} and can be addressed through \emph{paths}. \Fullref{type-system-modules-and-paths} will give a detailed explanation of the related mechanics.
+Todos os tipos são organizados em \emph{módulos} e podem ser referidos através de \emph{paths}. \Fullref{type-system-modules-and-paths} dará uma explicação detalhada sobre a mecânica subjacente.
 
 \section{Typedef}
 \label{type-system-typedef}
 
-We briefly looked at typedefs while talking about \tref{anonymous structures}{types-anonymous-structure} and saw how we could shorten a complex \tref{structure type}{types-anonymous-structure} by giving it a name. This is precisely what typedefs are good for. Giving names to structure types might even be considered their primary use. In fact, it is so common that the distinction appears somewhat blurry and many Haxe users consider typedefs to actually \emph{be} the structure.
+Nós olhamos rapidamente para typedfs enquanto falávamos sobre \tref{estruturas anôniomas}{types-anonymous-structure} e vimos como poderíamos encurtar uma \tref{tipo structure}{types-anonymous-structure} complexo ao lhe dar um nome. Isso é precisamente para o que typedefs servem bem.  Dar nomes a tipos structure deveria até ser considerado o uso primário deles. De fato, é tão comum que a distinção fica algo nebulosa e muitos usuários do Haxe consideram que typedefs \emph{sejam} realmente o ``structure''.
 
-A typedef can give a name to any other type:
+Um typedef pode dar nome a algum outro tipo:
 
 \begin{lstlisting}
-typedef IA = Array<Int>;
+typedef AI = Array<Int>;
 \end{lstlisting}
-This enables us to use \expr{IA} in places where we would normally use \expr{Array$<$Int$>$}. While this saves only a few keystrokes in this particular case, it can make a much bigger difference for more complex, compound types. Again, this is why typedef and structures seem so connected:
+Isso nos capacita a usar \expr{AI} em lugares onde normalmente usaríamos \expr{Array$<$Int$>$}. Enquanto economiza poucas batidas de teclas nesse caso particular, isso pode fazer uma diferença muito maior para casos compostos, mais complexos. Uma vez mais, esse é o porque typedef e structures paracem tão conectados:
 
 \begin{lstlisting}
 typedef User = {
-  var age : Int;
-  var name : String;
+  var idade : Int;
+  var nome : String;
 }
 \end{lstlisting}
-A typedef is not a textual replacement but actually a real type. It can even have \tref{type parameters}{type-system-type-parameters} as the \type{Iterable} type from the Haxe Standard Library demonstrates:
+Um typedef não é uma substituição textual, mas efetivamente um tipo de verdade; Ele pode ainda ter \tref{tipos como parâmetros}{type-system-type-parameters} como o tipo \type{Iterable} da Biblioteca Padrão do Haxe demonstra:
 
 \begin{lstlisting}
 typedef Iterable<T> = {
@@ -33,99 +33,99 @@ typedef Iterable<T> = {
 }
 \end{lstlisting}
 
-\paragraph{Optional fields}
-Mark the field of a structure as optional using the \ic{@:optional} metadata.
+\paragraph{Campos opcionais}
+Registre que o campo de uma estrutura é opcional usando o metadado \ic{@:optional}.
 \begin{lstlisting}
 typedef User = {
   var age : Int;
   var name : String;
-  @:optional var phoneNumber : String;
+  @:optional var foneNumero : String;
 }
 \end{lstlisting}
 
-\subsection{Extensions}
+\subsection{Estensões}
 \label{type-system-extensions}
 
 % TODO: move to structures? %
-Extensions are used to express that a structure has all the fields of a given type as well as some additional fields of its own:
+Estensões são usadas para expressar que uma estrutura tem todos os campso de um dado tipo, assim como alguns campos adicionais prórios:
 
 \haxe{assets/Extension.hx}
-The greater-than operator \expr{>} denotes that an extension of \type{Iterable$<$T$>$} is being created, with the additional class fields following. In this case, a read-only \tref{property}{class-field-property} \expr{length} of type \type{Int} is required.
+O operador ``maior que'' \expr{>} indica que uma estensão do tipo \type{Iterable$<$T$>$} está sendo criada, como os campos de classe adicionais seguintes. Nesse caso, uma \tref{properiedade}{class-field-property} apenas de leitura  \expr{length} de tipo \type{Int} é necessária.
 
-In order to be compatible with \type{IterableWithLength$<$T$>$}, a type then must be compatible with \type{Iterable$<$T$>$} and also provide a read-only \expr{length} property of type \type{Int}. The example assigns an \type{Array}, which happens to fulfill these requirements.
+De forma a ser compatível com \type{IterableWithLength$<$T$>$}, um tipo deve então ser compatível com \type{Iterable$<$T$>$} e também fornecer uma propriedade \expr{length} apenas de leitura do tipo \type{Int}. O exemplo aloca um  \type{Array}, o qual calha de atender essas exigências.
 
 \since{3.1.0}
 
-It is also possible to extend multiple structures:
+Também é possível estender multiplas estruturas:
 
 \haxe{assets/Extension2.hx}
 
 
 
-\section{Type Parameters}
+\section{Tipos como Parâmetros}
 \label{type-system-type-parameters}
 
-Haxe allows parametrization of a number of types, as well as \tref{class fields}{class-field} and \tref{enum constructors}{types-enum-constructor}. Type parameters are defined by enclosing comma-separated type parameter names in angle brackets \expr{$<>$}. A simple example from the Haxe Standard Library is \type{Array}:
+Haxe permite a parametrização de uma número considerável de tipos, bem como \tref{campos de classe}{class-field} e \tref{enum constructors}{types-enum-constructor}. Tipos comoParâmetros são definidos por nomes de parâmetros separados por virgulas entre chaves anguladas \expr{$< >$}. Um exemplo simples da Biblioteca Padrão do Haxe é o \type{Array}:
 
 \begin{lstlisting}
 class Array<T> {
   function push(x : T) : Int;
 }
 \end{lstlisting}
-Whenever an instance of \type{Array} is created, its type parameter \type{T} becomes a \tref{monomorph}{types-monomorph}. That is, it can be bound to any type, but only one at a time. This binding can happen
+Quando quer que uma instância de \type{Array} seja criada, o seu parâmetro \type{T} se torna um \tref{monomorfo}{types-monomorph}. Ou seja, ele pode ser vinculado a qualquer tipo, mas uma única vez. Essa vinculação pode acontecer
 
 \begin{description}
-	\item[explicitly] by invoking the constructor with explicit types (\expr{new Array$<$String$>$()}) or
-	\item[implicitly] by \tref{type inference}{type-system-type-inference}, e.g. when invoking \expr{arrayInstance.push("foo")}.
+	\item[explicitamente] ao invocar o constructor com tipos explícitos (\expr{new Array$<$String$>$()}) ou
+	\item[implicitamente] por \tref{inferência de tipos}{type-system-type-inference}, e.g. quando invocando \expr{instanciaDeArray.push("foo")}.
 \end{description}
-Inside the definition of a class with type parameters, these type parameters are an unspecific type. Unless \tref{constraints}{type-system-type-parameter-constraints} are added, the compiler has to assume that the type parameters could be used with any type. As a consequence, it is not possible to access fields of type parameters or \tref{cast}{expression-cast} to a type parameter type. It is also not possible to create a new instance of a type parameter type, unless the type parameter is \tref{generic}{type-system-generic} and constrained accordingly. 
+Dentro da definição de uma classe com tipos como parâmetros, esses ``parâmetros de tipo'' são de um tipo não-especificado. Ao menos que \tref{restrições}{type-system-type-parameter-constraints} sejam adicionadas, o compilador tem que assumir que o ``parâmetro de tipo'' poderia ser usado com qualquer tipo. Como uma consequência, não é possível acessar campos do dos parâmetros de tipo ou \tref{forjar(cast)}{expression-cast} para um tipo que é um ``parâmetro de tipo''. Também não é possível criar uma nova instância de uma tipo que seja um ``parâmetro de tipo'', ao menos que o parâmetro de tipo seja um \tref{tipo genérico}{type-system-generic} e apropriadamente restrito. 
 
-The following table shows where type parameters are allowed:
+A tabela seguinte mostra onde tipos como parâmetros (``parâmetros de tipo'') são aceitos
 
 \begin{center}
 \begin{tabular}{| l | l | l |}
 	\hline
-	Parameter on & Bound upon & Notes \\ \hline
-	Class & instantiation & Can also be bound upon member field access. \\
-	Enum & instantiation & \\
-	Enum Constructor & instantiation & \\
-	Function & invocation & Allowed for methods and named local lvalue functions. \\
-	Structure & instantiation & \\ \hline
+	Parâmetro em & Ocasião do vinculamento & Observações \\ \hline
+	Classe & instanciamento & Também pode ser vinculado por ocasião de acesso de um campo. \\
+	Enum & instanciamento & \\
+	Enum Constructor & instanciamento & \\
+	Função & chamada & Perimtido para métodos e funções locais lvalue nomeadas. \\
+	Structure & instanciamento & \\ \hline
 \end{tabular}
 \end{center}
-With function type parameters being bound upon invocation, such a type parameter (if unconstrained) accepts any type. However, only one type per invocation is accepted. This can be utilized if a function has multiple arguments:
+Como os tipos de parâmetro de função são vinculados por ocasião da chamada, esse parãmetro de tipo (se irrestrito) aceita qualquer tipo. No entanto, apenas um tipo por chamadaé aceito. Isso pode ser utilizado se uma função tem múltiplos argumentos: 
 
 \haxe{assets/FunctionTypeParameter.hx}
 
-Both arguments \expr{expected} and \expr{actual} of the \expr{equals} function have type \type{T}. This implies that for each invocation of \expr{equals} the two arguments must be of the same type. The compiler admits the first call (both arguments being of \type{Int}) and the second call (both arguments being of \type{String}) but the third attempt causes a compiler error.
+Ambos os argumentos \expr{esperado} and \expr{encontrado} da função \expr{equivale} tem tipo \type{T}. Isso implica que para cada chamada de  \expr{equivale} os dois argumentos devem ser do mesmo tipo. O compilador admite a primeira chamada (ambos argumentos sendo do tipo \type{Int}) e a segunda chamada (ambos argumentos \type{String}), mas a terceira tentativa causa um erro de compilação.
 
-\trivia{Type parameters in expression syntax}{We often get the question why a method with type parameters cannot be called as \expr{method<String>(x)}. The error messages the compiler gives are not very helpful. However, there is a simple reason for that: The above code is parsed as if both \expr{<} and \expr{>} were binary operators, yielding \expr{(method < String) > (x)}.}
+\trivia{``Parâmetros de tipo'' na sintaxe de expressão}{Frequentemente nos perguntam porque um método com parâmetros de tipo não podem ser chamados como \expr{metodo<String>(x)}. As mensagens de erro que o compilador dá não são de muita ajuda. Entretanto, há uma razão simples para isso: O código acima é processado como se ambos \expr{<} and \expr{>} fossem operadores binários, gerando \expr{(metodo < String) > (x)}.}
 
-\subsection{Constraints}
+\subsection{Restrições}
 \label{type-system-type-parameter-constraints}
 
-Type parameters can be constrained to multiple types:
+Parâmetros de tipo podem ser restritos a múltiplos tipos:
 
 \haxe{assets/Constraints.hx}
-Type parameter \type{T} of method \expr{test} is constrained to the types \type{Iterable$<$String$>$} and \type{Measurable}. The latter is defined using a \tref{typedef}{type-system-typedef} for convenience and requires compatible types to have a read-only \tref{property}{class-field-property} named \expr{length} of type \type{Int}. The constraints then say that a type is compatible if
+O parâmetro de tipo \type{T} do método \expr{teste} é restrito aos tipos \type{Iterable$<$String$>$} e \type{Mensuravel}. O último é definido usando um \tref{typedef}{type-system-typedef} por conveniência e exige tipos compátiveis que tenham a propriedade \tref{property}{class-field-property} de nome \expr{length} de tipo \type{Int} somente para leitura. As restrições então dizem que um tipo é compatível se
 
 \begin{itemize}
-	\item it is compatible with \type{Iterable$<$String$>$} and
-	\item has a \expr{length}-property of type \type{Int}.
+	\item for compatível com  \type{Iterable$<$String$>$} e
+	\item tem uma propriedade \expr{length} do tipo \type{Int}.
 \end{itemize}
-We can see that invoking \expr{test} with an empty array in line 7 and an \type{Array$<$String$>$} in line 8 works fine. This is because \type{Array} has both a \expr{length}-property and an \expr{iterator}-method. However, passing a \type{String} as argument in line 9 fails the constraint check because \type{String} is not compatible with \type{Iterable$<$T$>$}. 
+Podemos ver que invocar \expr{teste} com um array vazio na linha 7 e com um \type{Array$<$String$>$} na linha 8 funciona. Isso é porque o tipo \type{Array} tem tanto uma propriedade \expr{length} quanto um método \expr{iterator}. Entretanto, passar um argumento \type{String} na linha 9 falha na verificação de restrição porque \type{String} não é compatível com \type{Iterable$<$T$>$}. 
 
 
 \section{Generic}
 \label{type-system-generic}
 
-Usually, the Haxe Compiler generates only a single class or function even if it has type parameters. This results in a natural abstraction where the code generator for the target language has to assume that a type parameter could be of any type. The generated code then might have to perform some type checks which can be detrimental to performance.
+Usualmente, o Compilador de Haxe gera unicamente uma classe ou função mesmo que ela tenha parâmetros de tipo. Isso resulta em uma abstração natural onde o gerador de código para a linguagem do target tem que assumir que um parâmetro de tipo pode ser de qualquer tipo. O código gerado então, deveria ter de aplicar algum tipo de verificação de tipo que pode ser detrimental para o desempenho.
 
-A class or function can be made \emph{generic} by attributing it with the \expr{:generic} \tref{metadata}{lf-metadata}. This causes the compiler to emit a distinct class/function per type parameter combination with mangled names. A specification like this can yield a boost in performance-critical code portions on \tref{static targets}{define-static-target} at the cost of a larger output size:
+Uma classe ou função pode ser feita \emph{genérica} com a atribuição do \tref{metadado}{lf-metadata} \expr{generic}. Isso faz com que o compilador envie uma classe/função distinta para cada combinação de parâmetro de tipo possível com nomes ``decorativos''. Uma especificação como essa pode promover um avanço em porções de código para \tref{targets estáticos}{define-static-target} cujo desempenho é crítico ao custo de arquivos de saída maiores:
 
 \haxe{assets/GenericClass.hx}
 
-It seems unusual to see the explicit type \type{MyValue<String>} here as we usually let \tref{type inference}{type-system-type-inference} deal with this. Nonetheless, it is indeed required in this case. The compiler has to know the exact type of a generic class upon construction. The \target{JavaScript} output shows the result:
+Parece pouco usual ver o tipo explícito \type{MyValue<String>} aqui porque usualmente deixamos \tref{a inferência de tipos}{type-system-type-inference} tratar disso. Ainda assim, o explicitamento é de fato necessário nesse caso. O compilador tem que saber o exato tipo de uma classe genérica no momento da construção. A saída em \target{JavaScript} mostra o resultado:
 
 \begin{lstlisting}
 (function () { "use strict";
@@ -144,11 +144,11 @@ Test.main();
 })();
 \end{lstlisting}
 
-We can identify that \type{MyValue<String>} and \type{MyValue<Int>} have become \type{MyValue_String} and \type{MyValue_Int} respectively. This is similar for generic functions:
+Podemos identificar que \type{MyValue<String>} e \type{MyValue<Int>} se tornaram \type{MyValue_String} e \type{MyValue_Int} respectivamente. Isso é similar ao que acontece com funções ``generic'':
 
 \haxe{assets/GenericFunction.hx}
 
-Again, the \target{JavaScript} output makes it obvious:
+De novo, a saída em \target{JavaScript} faz isso óbvio:
 
 \begin{lstlisting}
 (function () { "use strict";
@@ -166,23 +166,23 @@ Main.main();
 \end{lstlisting}
 
 
-\subsection{Construction of generic type parameters}
+\subsection{Construção de ``parâmetros de tipo'' generic}
 \label{type-system-generic-type-parameter-construction}
 
-\define{Generic Type Parameter}{define-generic-type-parameter}{A type parameter is said to be generic if its containing class or method is generic.}
+\define{``Parâmetro de tipo'' generic}{define-generic-type-parameter}{Um parâmetro de tipo é dito ``generic'' se a classe ou método que o contém é `` generic''.}
 
-It is not possible to construct normal type parameters, e.g. \expr{new T()} is a compiler error. The reason for this is that Haxe generates only a single function and the construct makes no sense in that case. This is different when the type parameter is generic: Since we know that the compiler will generate a distinct function for each type parameter combination, it is possible to replace the \type{T} \expr{new T()} with the real type.
+Não é possível contruir parâmetros de tipo normais, e.g; \expr{new T()} é um erro de compilação. A razão para isso é que Haxe gera somente uma única função e o construct não faz sentido nesse caso. Isso é diferente quando o parâmetro de tipo é genérico: já que sabemos que o compilador vai gerar uma função disitinta para cada combinação de parâmetros de tipo, é possível substituir o \type{T} \expr{new T()} com o tipo real.
 
 \haxe{assets/GenericTypeParameter.hx}
 
-It should be noted that \tref{top-down inference}{type-system-top-down-inference} is used here to determine the actual type of \type{T}. There are two requirements for this kind of type parameter construction to work: The constructed type parameter must be
+Deve ser observado que a \tref{inferência de cima para baixo}{type-system-top-down-inference} é usada aqui para determinar o tipo efetivo de \type{T}. Há duas exigẽncias para a construção dessa espécie de parâmetro de tipo funcionar: O tipo construído deve ser
 
 \begin{enumerate}
-	\item generic and
-	\item be explicitly \tref{constrained}{type-system-type-parameter-constraints} to having a \tref{constructor}{types-class-constructor}.
+	\item generic e 
+	\item explictamente \tref{restrito}{type-system-type-parameter-constraints} para ter um \tref{constructor}{types-class-constructor}.
 \end{enumerate}
 
-Here, 1. is given by \expr{make} having the \expr{@:generic} metadata, and 2. by \type{T} being constrained to \type{Constructible}. The constraint holds for both \type{String} and \type{haxe.Template} as both have a constructor accepting a singular \type{String} argument. Sure enough, the relevant \target{JavaScript} output looks as expected:
+Here, 1. é dado por \expr{make} contendo o metadado \expr{@:generic}, e 2. por \type{T} sendo restrito a \type{Constructible}. A restrição se mantém tanto para \type{String} quanto para \type{haxe.Template} já que ambos tem um constructor recebendo um único argumento \type{String}. Certo o bastante, a reveladora saída em  \target{JavaScript} se vê conforme esperada:
 
 \begin{lstlisting}
 var Main = function() { }
@@ -199,28 +199,30 @@ Main.main = function() {
 }
 \end{lstlisting}
 
-\section{Variance}
+\section{Variância}
 \label{type-system-variance}
 
-While variance is also relevant in other places, it occurs particularly often with type parameters and comes as a surprise in this context. Additionally, it is very easy to trigger variance errors:
+Mesmo que variância seja também relevante em outros lugares, ela ocorre especialmente com frequência em parâmetros de tipo e aparece como uma surpresa nesse contexto. Adicionalmente, é muito fácil disparar erros de variância:
 
 \haxe{assets/Variance.hx}
 
-Apparently, an \type{Array<Child>} cannot be assigned to an \type{Array<Base>}, even though \type{Child} can be assigned to \type{Base}. The reason for this might be somewhat unexpected: It is not allowed because arrays can be written to, e.g. via their \expr{push()} method. It is easy to generate problems by ignoring variance errors:
+Aparentemente, um \type{Array<Child>} não pode ser alocado a um \type{Array<Base>}, ainda que \type{Child} possa ser alocado a \type{Base}. A razão para isso poderia ser algo inesperada: Isso não é permitido porque se pode escrever em arrays, e.g. via seu método \expr{push()}. É facil causar problemas ao ignorar erros de variância:
 
 \haxe{assets/Variance2.hx}
 
-Here we subvert the type checker by using a \tref{cast}{expression-cast}, thus allowing the assignment after the commented line. With that we hold a reference \expr{bases} to the original array, typed as \type{Array<Base>}. This allows pushing another type compatible with \type{Base} (\type{OtherChild}) onto that array. However, our original reference \expr{children} is still of type \type{Array<Child>} and things go bad when we encounter the \type{OtherChild} instance in one of its elements while iterating.
+Aqui, nós subvertemos o verificador de tipos ao usar uma expressão \tref{cast}{expression-cast}, nos  permitindo a atribuição depois da linha comentada. Xom issom now mantivemos uma referência \expr{bases} ao array original, tipado como \type{Array<Base>}. Isso permite inserir outro tipo compatível com \type{Base} (\type{OtherChild}) naquele array. No entanto, nossa referência original  \expr{children} ainda é do tipo \type{Array<Child>} e as coisas vão mal quando encontramos a instância do tipo \type{OtherChild} em um de seus elementos durante uma iteração.
 
-If \type{Array} had no \expr{push()} method and no other means of modification, the assignment would be safe because no incompatible type could be added to it. In Haxe, we can achieve this by restricting the type accordingly using \tref{structural subtyping}{type-system-structural-subtyping}:
+Se \type{Array} não tivesse o método \expr{push()} e nenhuma outra forma de modificação, a alocação seria segura porque nenhum tipo incompátivel poderia ser adicionado a ele. Em Haxe, nós podemos conseguir isso ao restringir o tipo apropriadamente usando \tref{subtipagem estrutural}{type-system-structural-subtyping}:
 
 \haxe{assets/Variance3.hx}
 
-We can safely assign with \expr{b} being typed as \type{MyArray<Base>} and \type{MyArray} only having a \expr{pop()} method. There is no method defined on \type{MyArray} which could be used to add incompatible types, it is thus said to be \emph{covariant}.
+Nós podemos seguramente atribuir com \expr{b} sendo tipada como \type{MyArray<Base>} e \type{MyArray} tendo somente um método \expr{pop()}. Não há método definido em \type{MyArray} que pudesse ser usado para adicionar tipos incompatíveis, ele é assim descrito como \emph{covariante}.
 
-\define{Covariance}{define-covariance}{A \tref{compound type}{define-compound-type} is considered covariant if its component types can be assigned to less specific components, i.e. if they are only read, but never written.}
+\define{Covariância}{define-covariance}{Um \tref{tipo composto}{define-compound-type} é considerado convariante se seus tipos componentes podem ser atribuídos a componentes menos específicos, i.e. se eles são apenas lidos, mas nunca se escrevem neles.}
 
-\define{Contravariance}{define-contravariance}{A \tref{compound type}{define-compound-type} is considered contravariant if its component types can be assigned to less generic components, i.e. if they are only written, but never read.}
+\define{Contravariância}{define-contravariance}{Um \tref{tipo composto}{define-compound-type} é considerado contravariante se seus (tipos) componentes podem ser atribuídos a componentes menos genéricos, i.e. se eles são apenas escritos, mas nunca lidos.}
+
+
 
 
 
