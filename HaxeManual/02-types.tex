@@ -361,75 +361,75 @@ interface Debuggable extends Printable extends Serializable
 Haxe oferece poderosos tipos enumeradores (enumerações ou enum). que são na verdade \emph{tipos de dados algébricos} (Algebraic Data Type)\footnote{\url{http://en.wikipedia.org/wiki/Algebraic_data_type}}. Ainda que não possam ter nenhuma  \tref{expressão}{expression}, eles são muito úteis para a descrição de estruturas de dados:
 
 \haxe{assets/Color.hx}
-Semantically, this enum describes a color which is either red, green, blue or a specified RGB value. The syntactic structure is as follows:
+Semanticamente, esse enum descreve uma cor que é vermelha (red), verde(green), azul(blue) ou um valor especificado de RGB. A estrutura sintática é conforme segue:
 \begin{itemize}
-	\item The keyword \expr{enum} denotes that we are declaring an enum.
-	\item \type{Color} is the name of the enum and could be anything conforming to the rules for \tref{type identifiers}{define-identifier}.
-	\item Enclosed in curly braces \expr{$\left\{\right\}$} are the \emph{enum constructors},
-	\item which are \expr{Red}, \expr{Green} and \expr{Blue} taking no arguments,
-	\item as well as \expr{Rgb} taking three \type{Int} arguments named \expr{r}, \expr{g} and \expr{b}.
+	\item A palavra-chave \expr{enum} indica que estamos declarando um enum.
+	\item \type{Color} é o nome do enum, que poderia ser qualquer um que se conformasse com as regras de \tref{identificadores de tipo}{define-identifier}.
+	\item Cercado por chaves \expr{$\left\{\right\}$} estão os \emph{constructors de enums},
+	\item que são \expr{Red}, \expr{Green} e \expr{Blue} sem argumentos,
+	\item bem como \expr{Rgb} que toma três argumentos \type{Int} denominados \expr{r}, \expr{g} and \expr{b}.
 \end{itemize}
-The Haxe type system provides a type which unifies with all enum types:
+O sistema de tipos de Haxe oferece um tipo que unifica com todos os tipos de enums:
 
-\define[Type]{\expr{Enum$<$T$>$}}{define-enum-t}{This type is compatible with all enum types. At compile-time, \type{Enum<T>} can be seen as the common base type of all enum types. However, this relation is not reflected in generated code.} 
+\define[Type]{\expr{Enum$<$T$>$}}{define-enum-t}{Esse tipo é compatível com todos os tipos enum. Em tempo de compilação, \type{Enum<T>} pode ser visto como a base comum de tipos de todos os tipos enum. Entretanto, essa relação não é refletida no código gerado.} 
 \todo{Same as in 2.2, what is \type{Enum$<$T$>$} syntax?}
 
 \subsection{Enum Constructor}
 \label{types-enum-constructor}
 
-Similar to classes and their constructors, enums provide a way of instantiating them by using one of their constructors. However, unlike classes, enums provide multiple constructors which can easily be used through their name:
+Similar a classes e a seus construtores, enums oferecem uma maneira de instanciamento pelo uso de um de seus constructors. Entretanto, diferente de classes, enums fornecem muitos constructors. que podem ser facilmente utilizados através de seus nomes:
+
 
 \begin{lstlisting}
 var a = Red;
 var b = Green;
 var c = Rgb(255, 255, 0);
 \end{lstlisting}
-In this code the type of variables \expr{a}, \expr{b} and \expr{c} is \type{Color}. Variable \expr{c} is initialized using the \expr{Rgb} constructor with arguments.
-\todo{list arguments}
+Nesse código o tipo das variáveis \expr{a}, \expr{b} e \expr{c} é \type{Color}. A variável \expr{c} é inicializada usando o constructor \{Rgb} com argumentos.
 
-All enum instances can be assigned to a special type named \type{EnumValue}.
+Todas as instâncias de enum podem ser atribuídas a um tipo especial de nome \type{EnumValue}.
 
-\define[Type]{EnumValue}{define-enumvalue}{EnumValue is a special type which unifies with all enum instances. It is used by the Haxe Standard Library to provide certain operations for all enum instances and can be employed in user-code accordingly in cases where an API requires \emph{an} enum instance, but not a specific one.}
+\define[Type]{EnumValue}{define-enum-value}{EnumValue é um tipo especial que unifica com todas as instâncias de enums. Ele é usado pela Biblioteca Padrão do Haxe para fornecer certas operações para todas as instâncias de enum e pode ser empregado no "código usuário" apropriadamente em casos onde a API exige \emph{uma} instância de enum, mas não uma específica.}
 
-It is important to distinguish enum types and enum constructors, as this example demonstrates:
+É importante distinguir tipos enum e constructors de enums, como esse exemplo demonstra:
 
 \haxe{assets/EnumUnification.hx}
 
-If the commented line is uncommented, the program does not compile because \expr{Red} (an enum constructor) cannot be assigned to a variable of type \type{Enum<Color>} (an enum type). The relation is analogous to a class and its instance.
+Se a linha comentada tiver o sinal de cometário removido, o programa não compila porque \expr{Red} (um constructor de enum) não pode ser atribuído a uma variável do tipo \type{Enum<Color>} (um tipo enum). A relação é análoga a relação de uma classe e sua instância.
 
-\trivia{Concrete type parameter for \type{Enum$<$T$>$}}{One of the reviewers of this manual was confused about the difference between \type{Color} and \type{Enum<Color>} in the example above. Indeed, using a concrete type parameter there is pointless and only serves the purpose of demonstration. Usually we would omit the type there and let \tref{type inference}{type-system-type-inference} deal with it.
+\trivia{Parâmetro de tipo concreto para \type{Enun$<$T$>$}}{Um dos revisores deste manual estava confuso sobre a diferença entre \type{Color} e \type{Enum<Color>} no exemplo acima. De fato, o uso de um parâmetro de tipo concreto ali é desnecessário e tem apenas o propósito de demonstração. Geralmente nós omitiríamos o tipo ali e deixariamos a \tref{inferência de tipos}{type-system-type-inference} tratar disso.
 
-However, the inferred type would be different from \type{Enum<Color>}. The compiler infers a pseudo-type which has the enum constructors as ``fields''. As of Haxe 3.2.0, it is not possible to express this type in syntax but also, it is never necessary to do so.}
+Entretanto, o tipo inferido seria diferente de \type{Enum<Color>}. O compilador infere um pseudo-tipo que tem o enum constructor como um de seus ``campos''. Já no Haxe 3.2.0 não é possível expressar este tipo por sintaxe, mas também nunca é necessário fazê-lo.}
 
 
 
-\subsection{Using enums}
-\label{types-enum-using}
+\subsection{Usando enums}
+\labe{types-enum-using}
 
-Enums are a good choice if only a finite set of values should be allowed. The individual \tref{constructors}{types-enum-constructor} then represent the allowed variants and enable the compiler to check if all possible values are respected. This can be seen here:
+Enums são uma boa escolha se apenas um conjunto finito de valores deve ser permitido. Os \tref{constructors}{types-enum-constructor} individuais representam as variantes permitidas e habilitam o compilador a verificar se todos os valores possíveis são respeitados. Isso pode ser visot aqui:
 
 \haxe{assets/Color2.hx}
 
-After retrieving the value of \expr{color} by assigning the return value of \expr{getColor()} to it, a \tref{\expr{switch} expression}{expression-switch} is used to branch depending on the value. The first three cases \expr{Red}, \expr{Green} and \expr{Blue} are trivial and correspond to the constructors of \type{Color} that have no arguments. The final case \expr{Rgb(r, g, b)} shows how the argument values of a constructor can be extracted: they are available as local variables within the case body expression, just as if a \tref{\expr{var} expression}{expression-var} had been used.
+Depois de receber o valor de \expr{color} pela atribuição do valor de retorno de \expr{getColor()} à ela, uma \tref{expressão \expr{switch}}{expression-switch} é usada para para direcionar o procedimento dependendo do valor. Os primeiros trẽs casos: \expr{Red}, \expr{Green} e \expr{Blue} são triviais e correspondem aos constructors de \type{Color} que não têm argumentos. O caso final \expr{Rgb(r, g, b)} mostra como os valores dos argumentos de um constructor podem ser extraídos: eles estão disponíveis como variáveis locais internas oa corpo da experssão \expr{case}, assim como se uma \tref{expressão \expr{var}}{expression-var} tivesse sido usada.
 
-Advanced information on using the \expr{switch} expression will be explored later in the section on \tref{pattern matching}{lf-pattern-matching}.
+Informações avançadas sobre o uso da expressão \expr{switch} serão exploradas mais tarde na seção sobre \tref{pattern matching}{lf-pattern-matching}.
 
 
-\section{Anonymous Structure}
-\label{types-anonymous-structure}
+\section{Estruturas Anônimas}
+\label{types-anonymous-structures}
 
-Anonymous structures can be used to group data without explicitly creating a type. The following example creates a structure with two fields \expr{x} and \expr{name}, and initializes their values to \expr{12} and \expr{"foo"} respectively:
+Estruturas anônimas podem ser usadas para agrupar dados sem explicitamente criar um tipo. O exemplo seguinte cria uma estrutura com dois campos: \expr{x} e \expr{name}, e a inicializa seus valores para \expr{12} \expr{"foo"} respectivamente:
 
 \haxe{assets/Structure.hx}
-The general syntactic rules follow:
+As regras gerais de sintaxe seguem:
 
 \begin{enumerate}
-	\item A structure is enclosed in curly braces \expr{$\left\{\right\}$} and
-	\item Has a \emph{comma-separated} list of key-value-pairs.
-	\item A \emph{colon} separates the key, which must be a valid \tref{identifier}{define-identifier}, from the value.
-	\item\label{valueanytype} The value can be any Haxe expression.
-\end{enumerate}
-Rule \ref{valueanytype} implies that structures can be nested and complex, e.g.:
+    \item Uma estrutura é cercada por chaves \expr{$\left\{\right\)$ e 
+    \item Contém uma lista \emph{separada por vírgulas} de pares-chave-valor.
+    \item Um \emph{dois pontos} separa a chave, que deve ser um \tref{identificador}{define-identifier} válido, do valor.
+    \item \label{valueanytype} O valor pode ser qualquer expressão Haxe.
+\end{enumerate} 
+Regra \ref{valueanytype} implica que estruturas podem ser aninhadas e complexas, e.g.:
 
 \todo{please reformat}
 
@@ -443,7 +443,7 @@ var user = {
   ],
 };
 \end{lstlisting}
-Fields of structures, like classes, are accessed using a \emph{dot} (\expr{.}) like so:
+Campos de estruturas, como de classes, são acessados usando um \emph{ponto} (\expr{.}) tal como:
 
 \begin{lstlisting}
 // get value of name, which is "Nicolas"
@@ -451,7 +451,7 @@ user.name;
 // set value of age to 33
 user.age = 33;
 \end{lstlisting}
-It is worth noting that using anonymous structures does not subvert the typing system. The compiler ensures that only available fields are accessed, which means the following program does not compile:
+Vale a pena observar que o uso de estruturas anônimas não subverte o sistema de tipagem. O compilador assegura que unicamente campos disponíveis sejam acessados, o que significa que o seguinte programa não compila:
 
 \begin{lstlisting}
 class Test {
@@ -462,8 +462,8 @@ class Test {
   }
 }
 \end{lstlisting}
-The error message indicates that the compiler knows the type of \expr{point}: It is a structure with fields \expr{x} and \expr{y} of type \type{Float}. Since it has no field \expr{z}, the access fails.
-The type of \expr{point} is known through \tref{type inference}{type-system-type-inference}, which thankfully saves us from using explicit types for local variables. However, if \expr{point} was a field, explicit typing would be necessary:
+A mensagem de erro indica que o compilador conhece o tipo de \expr{point}: È uma estrutura com campos\expr{x} e \expr{y} do tipo \type {Float}. Já que não tem campo \expr{z}, o acesso falha.
+O tipo de \expr{point} é conhdecido por \tref{inferência de tipos}{type-system-type-inference}, que gentilmente nos poupa do uso de tipos explícitos para variáveis locais. Entretanto, se \expr{point} fosse um campo. tipagem explícita seria necssária:
 
 \begin{lstlisting}
 class Path {
@@ -472,7 +472,7 @@ class Path {
     var current : { x : Int, y : Int };
 }
 \end{lstlisting}
-To avoid this kind of redundant type declaration, especially for more complex structures, it is advised to use a \tref{typedef}{type-system-typedef}:
+Para evitar esse tipo de declaração de tipo redundante, especialmente para estruturas mais complexas, é aconselhado o uso de um \tref{typedef}{type-system-typedef}:
 
 \begin{lstlisting}
 typedef Point = { x : Int, y : Int }
@@ -485,20 +485,20 @@ class Path {
 \end{lstlisting}
 
 
-\subsection{JSON for Structure Values}
+\subsection{JSON para Valores de Estruturas}
 \label{types-structure-json}
 
-It is also possible to use \emph{JavaScript Object Notation} for structures by using \emph{string literals} for the keys:
+Também é possível usar \emph{JavaScript Object Notation} para estruturas através de \emph{string literals}  para os valores-chaves:
 
 \begin{lstlisting}
 var point = { "x" : 1, "y" : -5 };
 \end{lstlisting}
-While any string literal is allowed, the field is only considered part of the type if it is a valid \tref{Haxe identifier}{define-identifier}. Otherwise, Haxe syntax does not allow expressing access to such a field, and \tref{reflection}{std-reflection} has to be employed through the use of \expr{Reflect.field} and \expr{Reflect.setField}.
+Enquanto qualquer string literal é permitito, o campo é unicamente considerado parte do tipo se é um \tref{identificador Haxe}{define-identifier} válido. De outra forma, a sintaxe de Haxe não permite a expressão de acesso a tal campo, e \tref{reflexão}{std-reflection} tem que ser empregada através do uso de \expr{Reflect.field} e \expr{Reflect.setField}.
 
-\subsection{Class Notation for Structure Types}
+\subsection{Notação de Classe para Tipos Estrutura}
 \label{types-structure-class-notation}
 
-When defining a structure type, Haxe allows using the same syntax as described in \Fullref{class-field}. The following \tref{typedef}{type-system-typedef} declares a \type{Point} type with variable fields \expr{x} and \expr{y} of type \type{Int}:
+Quando define um tipo estrutura, Haxe permite o uso da mesma sintaxe descrita em \Fullref{class-field}. O seguinte \tref{typedef}{type-system-typedef} declara um tipo \type{Point} com campos de variáveis \expr{x} e \expr{y} do tipo \type{Int}:
 
 \begin{lstlisting}
 typedef Point = {
@@ -507,15 +507,16 @@ typedef Point = {
 }
 \end{lstlisting}
 
-\subsection{Optional Fields}
+\subsection{Campos opcionais}
 \label{types-structure-optional-fields}
 
 \todo{I don't really know how these work yet.}
 
-\subsection{Impact on Performance}
+\subsection{Impact sobre o desempenho}
 \label{types-structure-performance}
 
-Using structures and, by extension, \tref{structural subtyping}{type-system-structural-subtyping} has no impact on performance when compiling to \tref{dynamic targets}{define-dynamic-target}. However, on \tref{static targets}{define-static-target} a dynamic lookup has to be performed which is typically slower than a static field access.
+O uso de estrututas e. por extensão, \tref{subtipagem estrutural}{type-system-structural-subtyping} não tem impacto no desempenho na compilação para \tref{targets dinâmicos}{define-dynamic-target}. Entretanto, em \tref{targets estáticos}{define-static-target} uma busca dinâmica tem de ser executada, o que é tipicamente mais lento do que um acesso a um campo estático.
+
 
 
 
